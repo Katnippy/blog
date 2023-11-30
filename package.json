@@ -17,6 +17,7 @@
     "mongoose": "^7.6.5",
     "nodemon": "^3.0.1"
   },
+  "type": "module",
   "devDependencies": {
     "@stylistic/eslint-plugin": "^1.4.1",
     "eslint": "^8.54.0"
