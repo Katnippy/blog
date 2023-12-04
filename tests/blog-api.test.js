@@ -105,6 +105,26 @@ describe('GET', () => {
   });
 });
 
+// PUT
+
+// DELETE
+describe('DELETE', () => {
+  test('Individual blogs can be deleted', async () => {
+    const blogsAtStart = await helper.jsonBlogsInDb();
+    const blogToDelete = blogsAtStart[0];
+
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(204);
+
+    const blogsAtEnd = await helper.jsonBlogsInDb();
+    expect(blogsAtEnd.length).toEqual(blogsAtStart.length - 1);
+
+    const authors = blogsAtEnd.map((blog) => blog.author);
+    expect(authors).not.toContain('Ferdinand Magellan');
+  });
+});
+
 afterAll(async () => {
   await mongoose.connection.close();
 });
