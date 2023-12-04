@@ -14,6 +14,13 @@ beforeEach(async () => {
   await Promise.all(promiseArray);
 });
 
+// GET
+test('/api/blogs returns the correct amount of posts', async () => {
+  const response = await api.get('/api/blogs');
+
+  expect(response.body).toHaveLength(2);
+});
+
 afterAll(async () => {
   await mongoose.connection.close();
 });
