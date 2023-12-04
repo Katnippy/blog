@@ -106,6 +106,44 @@ describe('GET', () => {
 });
 
 // PUT
+describe('PUT', () => {
+  test('Individual blogs can be partially updated', async () => {
+    const blogsAtStart = await helper.jsonBlogsInDb();
+    const blogToUpdate = blogsAtStart[0];
+    blogToUpdate.likes = 1521;
+
+    await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send(blogToUpdate)
+      .expect(200)
+      .expect('Content-Type', /application\/json/);
+
+    const blogsAtEnd = await helper.jsonBlogsInDb();
+    expect(blogsAtEnd.length).toEqual(blogsAtStart.length);
+    expect(blogsAtEnd[0].likes).toEqual(blogToUpdate.likes);
+  });
+
+  test('Individual blogs can be entirely updated', async () => {
+    const blogsAtStart = await helper.jsonBlogsInDb();
+    const blogToUpdateId = blogsAtStart[1].id;
+    const updatedBlog = {
+      title: 'My Secret Double Life as a Penguin and a Chicken',
+      author: 'Feathers McGraw (Penguin)',
+      url: 'www.ilovebeingachicken.com/my_life_as_a_penguin',
+      likes: 1
+    };
+
+    await api
+      .put(`/api/blogs/${blogToUpdateId}`)
+      .send(updatedBlog)
+      .expect(200)
+      .expect('Content-Type', /application\/json/);
+
+    const blogsAtEnd = await helper.jsonBlogsInDb();
+    expect(blogsAtEnd.length).toEqual(blogsAtStart.length);
+    expect(blogsAtEnd[1]).toEqual(expect.objectContaining(updatedBlog));
+  });
+});
 
 // DELETE
 describe('DELETE', () => {
