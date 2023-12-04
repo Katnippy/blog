@@ -17,15 +17,13 @@ beforeEach(async () => {
 // GET
 test('/api/blogs returns the correct amount of posts', async () => {
   const response = await api.get('/api/blogs');
-
-  expect(response.body).toHaveLength(2);
+  expect(response.body).toHaveLength(helper.initialBlogs.length);
 });
 
 test('`__id` property is changed to `id`', async () => {
-  const response = await api.get('/api/blogs');
-
-  expect(response.body[0].id).toBeDefined();
-  expect(response.body[0].__id).toBeUndefined();
+  const blogs = await helper.jsonBlogsInDb();
+  expect(blogs[0].id).toBeDefined();
+  expect(blogs[0].__id).toBeUndefined();
 });
 
 afterAll(async () => {
