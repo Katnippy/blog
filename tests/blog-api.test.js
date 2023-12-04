@@ -35,6 +35,22 @@ describe('POST', () => {
     const urls = blogs.map((blog) => blog.url);
     expect(urls).toContain(newBlog.url);
   });
+
+  test('POSTing a blog without a likes property returns 0 likes', async () => {
+    const newBlog = {
+      title: 'Can a Penguin Go Insane?',
+      author: 'Werner Herzog',
+      url: 'www.wernerherzog.com/insane-penguin.html'
+    };
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/);
+
+    const blogs = await helper.jsonBlogsInDb();
+    expect(blogs[2].likes).toEqual(0);
+  });
 });
 
 // GET
