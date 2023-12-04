@@ -159,7 +159,7 @@ describe('DELETE', () => {
     expect(blogsAtEnd.length).toEqual(blogsAtStart.length - 1);
 
     const authors = blogsAtEnd.map((blog) => blog.author);
-    expect(authors).not.toContain('Ferdinand Magellan');
+    expect(authors).not.toContain(blogToDelete.author);
   });
 });
 
