@@ -23,6 +23,15 @@ blogsRouter.get('/', async (request, response) => {
 });
 
 // PUT
+blogsRouter.put('/:id', async (request, response) => {
+  const { title, author, url, likes } = request.body;
+  const updatedBlog = await Blog.findByIdAndUpdate(
+    request.params.id,
+    { title, author, url, likes } ,
+    { new: true, runValidators: true, context: 'query' }
+  );
+  response.json(updatedBlog);
+});
 
 // DELETE
 blogsRouter.delete('/:id', async (request, response) => {
