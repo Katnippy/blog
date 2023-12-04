@@ -3,6 +3,7 @@ const blogsRouter = Router();
 
 import Blog from '../models/blog.js';
 
+// ! We're not handling errors! Import express-async-errors!
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog.find({});
   response.json(blogs);
