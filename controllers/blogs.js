@@ -25,5 +25,15 @@ blogsRouter.get('/', async (request, response) => {
 // PUT
 
 // DELETE
+blogsRouter.delete('/:id', async (request, response) => {
+  const result = await Blog.findByIdAndDelete(request.params.id);
+  if (result) {
+    response.status(204).end();
+  } else {
+    response.status(404).send({
+      error: 'Resource already deleted or doesn\'t exist'
+    });
+  }
+});
 
 export default blogsRouter;
