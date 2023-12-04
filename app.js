@@ -1,7 +1,9 @@
 import express from 'express';
+import 'express-async-errors';
 import mongoose from 'mongoose';
-import config from './utils/config.js';
 import cors from 'cors';
+
+import config from './utils/config.js';
 import blogsRouter from './controllers/blogs.js';
 
 const app = express();
