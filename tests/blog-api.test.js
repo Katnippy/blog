@@ -21,6 +21,13 @@ test('/api/blogs returns the correct amount of posts', async () => {
   expect(response.body).toHaveLength(2);
 });
 
+test('`__id` property is changed to `id`', async () => {
+  const response = await api.get('/api/blogs');
+
+  expect(response.body[0].id).toBeDefined();
+  expect(response.body[0].__id).toBeUndefined();
+});
+
 afterAll(async () => {
   await mongoose.connection.close();
 });
