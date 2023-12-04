@@ -36,7 +36,7 @@ describe('POST', () => {
     expect(urls).toContain(newBlog.url);
   });
 
-  test('POSTing a blog without a likes property returns 0 likes', async () => {
+  test('A blog without a likes property returns 0 likes', async () => {
     const newBlog = {
       title: 'Can a Penguin Go Insane?',
       author: 'Werner Herzog',
@@ -50,6 +50,44 @@ describe('POST', () => {
 
     const blogs = await helper.jsonBlogsInDb();
     expect(blogs[2].likes).toEqual(0);
+  });
+
+  test('A blog without a title property returns status code 400', async () => {
+    const newBlog = {
+      author: 'Pinga',
+      url: 'www.pingu.jp/pinga',
+      likes: 4
+    };
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+      .expect('Content-Type', /application\/json/);
+
+    const blogs = await helper.jsonBlogsInDb();
+    expect(blogs.length).toEqual(helper.initialBlogs.length);
+
+    const authors = blogs.map((blog) => blog.author);
+    expect(authors).not.toContain(newBlog.author);
+  });
+
+  test('A blog without a url property returns status code 400', async () => {
+    const newBlog = {
+      title: 'Why I Love My Family',
+      author: 'Pingu',
+      likes: 4
+    };
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+      .expect('Content-Type', /application\/json/);
+
+    const blogs = await helper.jsonBlogsInDb();
+    expect(blogs.length).toEqual(helper.initialBlogs.length);
+
+    const authors = blogs.map((blog) => blog.author);
+    expect(authors).not.toContain(newBlog.author);
   });
 });
 
